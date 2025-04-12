@@ -7,9 +7,63 @@ from tqdm import tqdm
 import os
 
 class BagfileReader():
-  def __init__(self, api_key, recording_id):
-    self.recording_id = recording_id
+  def __init__(self, api_key):
+
     self.client = Client(token=api_key)
+
+    self.call_fun_by_message = {
+        'ackermann_msgs/AckermannDriveStamped': self.parse_ackermann_drive_stamped,
+        'sensor_msgs/CompressedImage': self.parse_image,
+        'sensor_msgs/Image': self.parse_image,
+        'sensor_msgs/Imu': self.parse_imu,
+        'sensor_msgs/LaserScan': self.parse_scan,
+        'sensor_msgs/PointCloud2': self.parse_pointcloud,
+        'std_msgs/Int16MultiArray': self.parse_multiarray,
+        'sensor_msgs/MagneticField': self.parse_magneto,
+        'sensor_msgs/Joy': self.parse_joy,
+        'std_msgs/Float64': self.parse_float
+    }
+
+    self.recordings = {
+      "bshaped_track_all": "2y57fL95RUnUG5MW",
+      "bshaped_track_depth": "rec_0dY0zYREG8TYFbTY",
+      "bshaped_track_following_left": "rec_0dX26NC9WkjKqTyi",
+      "bshaped_track_following_right": "rec_0dX27U8jsoFpbA2u",
+      "bshaped_track_odometry": "rec_0dY0jXuthVmyx44",
+      "circle_drive_fixed_speed_left": "rec_0dWf0XUVbrlRtgl",
+      "cones_lidar_slam": "rec_0dY0z7WHao9tYAZY",
+      "hallway_lidar_slam": "rec_0dY106wizvoNRenl",
+      "imu_speed_stairs": "rec_0dWf0csWqOJcTgWT",
+      "imu_static": "rec_0dWf1wPygPWHB8ne",
+      "ir_lidar_calibration": "rec_0dY10RmyGbqo3RYh",
+      "lidar_erpm_speed_calibration": "rec_0dWe0f9soScOfuPB",
+      "lidar_intensity_chessboard": "rec_0dY11K7XVJTQjkJp",
+      "line_follow_ir": "rec_0dXdQXtgpulhyFq",
+      "line_follow_rgb": "rec_0dXdQEjD9xusMopd",
+      "parking_spot_scan_boxes": "rec_0dXGZgmNC3UMsfgo",
+      "parking_spot_scan_cars": "rec_0dXGZnMRxqFbrsBP",
+      "realsense_ir_projector": "rec_0dY12VqWM5qqYCLi",
+      "realsense_stereo_pair": "rec_0dY13AdIbWYxmq5I",
+      "rgb_lidar_calibration": "rec_0dY13lyyBJnrqtQZ",
+      "straight_line_odometry_fixed": "rec_0dWf22qU0x4iOBgs",
+      "straight_line_odometry_variable": "rec_0dWf25K94kU3b079"
+    }
+
+  def print_recordings(self):
+      print("Available Recordings:\n")
+      for name, rec_id in self.recordings.items():
+          print(f"{name.ljust(40)} → {rec_id}")
+
+
+  def get_recording_by_name(self, name):
+      if name not in self.recordings:
+          raise ValueError(f"Recording name '{name}' not found in available recordings.")
+      
+      recording_id = self.recordings[name]
+      return self.get_recording_by_id(recording_id)
+
+    
+  def get_recording_by_id(self, recording_id):
 
     rec = [r for r in  self.client.get_recordings() if r["id"] == recording_id][0]
 
@@ -26,19 +80,6 @@ class BagfileReader():
 
     self.mapping = dict(zip(df['topic'], df['schema_name']))
     self._info_df = df
-
-    self.call_fun_by_message = {
-        'ackermann_msgs/AckermannDriveStamped': self.parse_ackermann_drive_stamped,
-        'sensor_msgs/CompressedImage': self.parse_image,
-        'sensor_msgs/Image': self.parse_image,
-        'sensor_msgs/Imu': self.parse_imu,
-        'sensor_msgs/LaserScan': self.parse_scan,
-        'sensor_msgs/PointCloud2': self.parse_pointcloud,
-        'std_msgs/Int16MultiArray': self.parse_multiarray,
-        'sensor_msgs/MagneticField': self.parse_magneto,
-        'sensor_msgs/Joy': self.parse_joy,
-        'std_msgs/Float64': self.parse_float
-    }
 
   def info(self):
     return self._info_df
@@ -506,3 +547,5 @@ class BagfileReader():
               synced_df[f'{col}_{key}'] = values
 
       return synced_df
+
+
