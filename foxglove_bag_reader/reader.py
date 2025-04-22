@@ -47,7 +47,7 @@ class BagfileReader():
       "rgb_lidar_calibration": "rec_0dY13lyyBJnrqtQZ",
       "straight_line_odometry_fixed": "rec_0dWf22qU0x4iOBgs",
       "straight_line_odometry_variable": "rec_0dWf25K94kU3b079",
-      "calpoly_line_follor_rgb": "rec_0dc1DZGSo6r2rVo6",
+      "calpoly_line_follor_rgb": "rec_0dc1TgAUN7TKeVi9",
     }
 
   def print_recordings(self):
