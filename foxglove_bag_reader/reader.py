@@ -48,6 +48,7 @@ class BagfileReader():
       "straight_line_odometry_fixed": "rec_0dWf22Qu0x4iOBgs",
       "straight_line_odometry_variable": "rec_0dWf25K94kU3b079",
       "calpoly_line_follor_rgb": "rec_0dc1TgAUN7TKeVi9",
+      "stop_sign_detection": "rec_0ddpAqCTWG1aGR9l",
     }
 
   def print_recordings(self):
