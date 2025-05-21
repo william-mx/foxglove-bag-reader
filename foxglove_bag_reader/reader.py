@@ -56,6 +56,10 @@ class BagfileReader():
       "bc_acc_left": "rec_0dfT98uGspqiif57",
       "bc_right": "rec_0dfT9VBIqKuqlW80",
       "bc_left": "rec_0dfT9OhmOBqhm5OL",
+      "bc_right_vol_II": "rec_0dfYVP76gVi5Rh40",
+      "bc_left_vol_II": "rec_0dfYV91ylwPKOGKf",
+      "speedbump_hit": "rec_0dfYVfftcCBdXtPO",
+      "dont_hit_the_moose": "rec_0dfYWL69rDTot7Z8"
     }
 
   def print_recordings(self):
