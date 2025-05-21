@@ -51,7 +51,11 @@ class BagfileReader():
       "stop_sign_detection": "rec_0ddpAqCTWG1aGR9l",
       "all_signs": "rec_0ddyVecQl0hEpFBu",
       "pursuit_race": "rec_0ddybX0NuSnkO01W",
-      "traffic_light_drive": "rec_0ddyf1j7gYUYGb7W"
+      "traffic_light_drive": "rec_0ddyf1j7gYUYGb7W",
+      "bc_acc_right": "rec_0dfT9W0EKjtdvCG9",
+      "bc_acc_left": "rec_0dfT98uGspqiif57",
+      "bc_right": "rec_0dfT9VBIqKuqlW80",
+      "bc_left": "rec_0dfT9OhmOBqhm5OL",
     }
 
   def print_recordings(self):
