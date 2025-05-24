@@ -59,7 +59,17 @@ class BagfileReader():
       "bc_right_vol_II": "rec_0dfYVP76gVi5Rh40",
       "bc_left_vol_II": "rec_0dfYV91ylwPKOGKf",
       "speedbump_hit": "rec_0dfYVfftcCBdXtPO",
-      "dont_hit_the_moose": "rec_0dfYWL69rDTot7Z8"
+      "dont_hit_the_moose": "rec_0dfYWL69rDTot7Z8",
+      "trolley_problem": "rec_0dfuOWJg2GyXSCg7",
+      "rocket_league": "rec_0dfuNA94C6vqwW7t",
+      "bc_fork": "rec_0dfuMAKIDqw9i1GI",
+      "crosswalk": "rec_0dfuM3sIovhjR1dZ",
+      "bikes": "rec_0dfuLgu6Npu8MdPD",
+      "bc_acc_left_lidar": "rec_0dfuKkRmcCvQjeS1",
+      "bc_acc_right_lidar": "rec_0dfuKVP9v8D2kJiN",
+      "bc_right_vol_III": "rec_0dfpgQHkm8x9qGEz",
+      "bc_left_vol_III": "rec_0dfpgCwFVqTB0N0P",
+      "bc_traffic_light": "rec_0dfuPPJSbgtT4r3b"
     }
 
   def print_recordings(self):
