@@ -93,6 +93,7 @@ class BagfileReader():
     if len(rec) < 1:
       raise ValueError(f"Recording with id {recording_id} not found.")
 
+    self.recording_id = recording_id
     self.device_id = rec['device']['id']
     self.start = rec['start']
     self.end = rec['end']
