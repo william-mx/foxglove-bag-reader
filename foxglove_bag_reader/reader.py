@@ -203,8 +203,6 @@ class BagfileReader():
 
       msg_type = self.mapping[topic]
       msg_type = msg_type.replace("/msg/", "/") # sensor_msgs/msg/LaserScan → sensor_msgs/LaserScan
-
-      fn = self.decode_ros_image if msg_type == 'sensor_msgs/Image' else self.decode_jpeg
     
       export_dir = os.path.join(data_dir, self.recording_id)
 
@@ -218,7 +216,7 @@ class BagfileReader():
 
       for i, (topic, record, message) in enumerate(tqdm(record, total=total_messages, desc="Exporting images")):
           path = os.path.join(export_dir, f'frame_{i:04d}.jpg')
-          image, _ = fn(record.data)
+          image, _ = self.decode_jpeg(record.data) if msg_type == 'sensor_msgs/CompressedImage' else self.decode_ros_image(message)
           cv2.imwrite(path, image)
 
   def get_all_images(self, topic):
