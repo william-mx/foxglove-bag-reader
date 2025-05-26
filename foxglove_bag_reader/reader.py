@@ -506,6 +506,34 @@ class BagfileReader():
 
     return self.call_fun_by_message[msg_type](topic)
 
+  def get_events(self):
+      events = self.client.get_events(device_id=self.device_id, start=self.start, end=self.end)
+
+      return [
+          {
+              "metadata": event["metadata"],
+              "start": int(event["start"].timestamp() * 1e9),
+              "end": int(event["end"].timestamp() * 1e9)
+          }
+          for event in events
+      ]
+
+  @staticmethod
+  def find_indices_within_events(df, events):
+      results = []
+      for event in events:
+          start_ns = event['start']
+          end_ns = event['end']
+          # Find indices where timestamps fall within the event range
+          indices = df.index[(df['timestamp_ns'] >= start_ns) & (df['timestamp_ns'] <= end_ns)].tolist()
+          results.append({
+              'metadata': event['metadata'],
+              'start': start_ns,
+              'end': end_ns,
+              'indices': indices
+          })
+      return results
+    
 
   @staticmethod
   def sync_dataframes(base_df, **dataframes):
