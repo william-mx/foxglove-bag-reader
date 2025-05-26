@@ -201,6 +201,11 @@ class BagfileReader():
       if not os.path.exists(data_dir):
           raise FileNotFoundError(f"Directory {data_dir} does not exist.")
 
+      msg_type = self.mapping[topic]
+      msg_type = msg_type.replace("/msg/", "/") # sensor_msgs/msg/LaserScan → sensor_msgs/LaserScan
+
+      fn = self.decode_ros_image if msg_type == 'sensor_msgs/Image' else self.decode_jpeg
+    
       export_dir = os.path.join(data_dir, self.recording_id)
 
       if not os.path.exists(export_dir):
@@ -213,7 +218,7 @@ class BagfileReader():
 
       for i, (topic, record, message) in enumerate(tqdm(record, total=total_messages, desc="Exporting images")):
           path = os.path.join(export_dir, f'frame_{i:04d}.jpg')
-          image, _ = self.decode_jpeg(record.data)
+          image, _ = fn(record.data)
           cv2.imwrite(path, image)
 
   def get_all_images(self, topic):
