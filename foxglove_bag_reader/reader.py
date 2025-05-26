@@ -60,16 +60,16 @@ class BagfileReader():
       "bc_left_vol_II": "rec_0dfYV91ylwPKOGKf",
       "speedbump_hit": "rec_0dfYVfftcCBdXtPO",
       "dont_hit_the_moose": "rec_0dfYWL69rDTot7Z8",
-      "trolley_problem": "rec_0dfuOWJg2GyXSCg7",
-      "rocket_league": "rec_0dfuNA94C6vqwW7t",
-      "bc_fork": "rec_0dfuMAKIDqw9i1GI",
-      "crosswalk": "rec_0dfuM3sIovhjR1dZ",
-      "bikes": "rec_0dfuLgu6Npu8MdPD",
-      "bc_acc_left_lidar": "rec_0dfuKkRmcCvQjeS1",
-      "bc_acc_right_lidar": "rec_0dfuKVP9v8D2kJiN",
+      "trolley_problem": "rec_0dg5DRo7yJ0qORzy",
+      "rocket_league": "rec_0dg5BWThwG0d5gdp",
+      "bc_fork": "rec_0dg5DAYw9PQOGSNo",
+      "crosswalk": "rec_0dg5AqG18MR49e1W",
+      "bikes": "rec_0dg5BwnJf4niFwGF",
+      "bc_acc_left_lidar": "rec_0dg59V67jcyuY4G6",
+      "bc_acc_right_lidar": "rec_0dg59Reex2loAolI",
       "bc_right_vol_III": "rec_0dfpgQHkm8x9qGEz",
       "bc_left_vol_III": "rec_0dfpgCwFVqTB0N0P",
-      "bc_traffic_light": "rec_0dfuPPJSbgtT4r3b"
+      "bc_traffic_light": "rec_0dg5F0HHYKUGYsXO"
     }
 
   def print_recordings(self):
