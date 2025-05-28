@@ -69,7 +69,11 @@ class BagfileReader():
       "bc_acc_right_lidar": "rec_0dg59Reex2loAolI",
       "bc_right_vol_III": "rec_0dfpgQHkm8x9qGEz",
       "bc_left_vol_III": "rec_0dfpgCwFVqTB0N0P",
-      "bc_traffic_light": "rec_0dg5F0HHYKUGYsXO"
+      "bc_traffic_light": "rec_0dg5F0HHYKUGYsXO",
+      "bc_left_vol_IV": "rec_0dgKLXyLBbqJBzl9",
+      "bc_right_vol_IV": "rec_0dgKHXBIK5BkyHiX",
+      "bc_noise_injection": "rec_0dgKLmtmRiCUpBUb",
+      "bc_noise_injection_vol_II": "rec_0dgHjMOIhOhjNJzR"
     }
 
   def print_recordings(self):
