@@ -5,6 +5,7 @@ import cv2
 import struct
 from tqdm import tqdm
 import os
+import requests
 
 class BagfileReader():
   def __init__(self, api_key):
@@ -24,57 +25,19 @@ class BagfileReader():
         'std_msgs/Float64': self.parse_float
     }
 
-    self.recordings = {
-      "bshaped_track_all": "2y57fL95RUnUG5MW",
-      "bshaped_track_depth": "rec_0dY0zYREG8TYFbTY",
-      "bshaped_track_following_left": "rec_0dX26NC9WkjKqTyi",
-      "bshaped_track_following_right": "rec_0dX27U8jsoFpbA2u",
-      "bshaped_track_odometry": "rec_0dY0ylXuthVmxy44",
-      "circle_drive_fixed_speed_left": "rec_0dWf0XUVbrIrRtgL",
-      "cones_lidar_slam": "rec_0dY0z7WHao9tYAZY",
-      "hallway_lidar_slam": "rec_0dY106wizvoNRenI",
-      "imu_speed_stairs": "rec_0dWf0csWqOJcTgWT",
-      "imu_static": "rec_0dWf1wPygPWHB8ne",
-      "ir_lidar_calibration": "rec_0dY10RmyGbqo3RYh",
-      "lidar_erpm_speed_calibration": "rec_0dWeOf9soScOfuPB",
-      "lidar_intensity_chessboard": "rec_0dY11K7XVJTQjkJp",
-      "line_follow_ir": "rec_0dXdQXXtgpulyhFq",
-      "line_follow_rgb": "rec_0dXdQEjD9xusMopd",
-      "parking_spot_scan_boxes": "rec_0dXGZgmNC3UmsFgo",
-      "parking_spot_scan_cars": "rec_0dXGZnMRxqFbrsBP",
-      "realsense_ir_projector": "rec_0dY12VVqMSqqYCLi",
-      "realsense_stereo_pair": "rec_0dY13AdIDwYxmq5l",
-      "rgb_lidar_calibration": "rec_0dY13Iyy8JnrqtQZ",
-      "straight_line_odometry_fixed": "rec_0dWf22Qu0x4iOBgs",
-      "straight_line_odometry_variable": "rec_0dWf25K94kU3b079",
-      "calpoly_line_follor_rgb": "rec_0dc1TgAUN7TKeVi9",
-      "stop_sign_detection": "rec_0ddpAqCTWG1aGR9l",
-      "all_signs": "rec_0ddyVecQl0hEpFBu",
-      "pursuit_race": "rec_0ddybX0NuSnkO01W",
-      "traffic_light_drive": "rec_0ddyf1j7gYUYGb7W",
-      "bc_acc_right": "rec_0dfT9W0EKjtdvCG9",
-      "bc_acc_left": "rec_0dfT98uGspqiif57",
-      "bc_right": "rec_0dfT9VBIqKuqlW80",
-      "bc_left": "rec_0dfT9OhmOBqhm5OL",
-      "bc_right_vol_II": "rec_0dfYVP76gVi5Rh40",
-      "bc_left_vol_II": "rec_0dfYV91ylwPKOGKf",
-      "speedbump_hit": "rec_0dfYVfftcCBdXtPO",
-      "dont_hit_the_moose": "rec_0dfYWL69rDTot7Z8",
-      "trolley_problem": "rec_0dg5DRo7yJ0qORzy",
-      "rocket_league": "rec_0dg5BWThwG0d5gdp",
-      "bc_fork": "rec_0dg5DAYw9PQOGSNo",
-      "crosswalk": "rec_0dg5AqG18MR49e1W",
-      "bikes": "rec_0dg5BwnJf4niFwGF",
-      "bc_acc_left_lidar": "rec_0dg59V67jcyuY4G6",
-      "bc_acc_right_lidar": "rec_0dg59Reex2loAolI",
-      "bc_right_vol_III": "rec_0dfpgQHkm8x9qGEz",
-      "bc_left_vol_III": "rec_0dfpgCwFVqTB0N0P",
-      "bc_traffic_light": "rec_0dg5F0HHYKUGYsXO",
-      "bc_left_vol_IV": "rec_0dgKLXyLBbqJBzl9",
-      "bc_right_vol_IV": "rec_0dgKHXBIK5BkyHiX",
-      "bc_noise_injection": "rec_0dgKLmtmRiCUpBUb",
-      "bc_noise_injection_vol_II": "rec_0dgHjMOIhOhjNJzR"
-    }
+    self.get_recordings()
+
+  def get_recordings(self):
+    # Try to list all available recordings; raise error if API key is invalid
+    try:
+        self.recordings = {r['path']: r['id'] for r in self.client.get_recordings()}
+    except requests.exceptions.HTTPError as e:
+        if e.response.status_code == 401:
+            print("Invalid API key. Please check your credentials.")
+        else:
+            print(f"HTTP error occurred: {e}")
+    except Exception as e:
+        print(f"An unexpected error occurred: {e}")
 
   def print_recordings(self):
       print("Available Recordings:\n")
