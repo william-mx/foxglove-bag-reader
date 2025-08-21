@@ -27,6 +27,12 @@ class BagfileReader():
 
     self.get_recordings()
 
+  def list_available_message_types():
+    """Print the supported ROS message types in a nicely formatted view."""
+    print("Supported message types:\n")
+    for msg_type in self.call_fun_by_message.keys():
+        print(f"{msg_type}")
+      
   def get_recordings(self):
     # Try to list all available recordings; raise error if API key is invalid
     try:
