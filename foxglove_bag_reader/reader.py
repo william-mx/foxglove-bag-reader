@@ -26,11 +26,12 @@ class BagfileReader():
     }
 
     self.get_recordings()
-
-  def list_available_message_types(self):
+    
+  @classmethod
+  def list_available_message_types(cls):
     """Print the supported ROS message types in a nicely formatted view."""
     print("Supported message types:\n")
-    for msg_type in self.call_fun_by_message.keys():
+    for msg_type in cls.call_fun_by_message.keys():
         print(f"{msg_type}")
       
   def get_recordings(self):
