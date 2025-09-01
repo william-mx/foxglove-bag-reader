@@ -193,7 +193,7 @@ class BagfileReader():
           image, _ = self.decode_jpeg(record.data) if msg_type == 'sensor_msgs/CompressedImage' else self.decode_ros_image(message)
           cv2.imwrite(path, image)
 
-  def get_all_images(self, topic):
+  def get_all_images(self, topic, indices=None):
     data = []
 
     if topic not in self.mapping.keys():
@@ -201,9 +201,10 @@ class BagfileReader():
 
     msg_type = self.mapping[topic]
 
-    for (topic, record, message) in self.client.get_messages(device_id=self.device_id, start=self.start, end=self.end, topics=[topic]):
+    for i, (topic, record, message) in enumerate(self.client.get_messages(device_id=self.device_id, start=self.start, end=self.end, topics=[topic])):
         image, _ = self.decode_jpeg(record.data) if msg_type == 'sensor_msgs/CompressedImage' else self.decode_ros_image(message)
-        data.append(image)
+        if indices is None or i in indices:
+            data.append(image)
 
     return data
 
