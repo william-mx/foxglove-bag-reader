@@ -51,7 +51,13 @@ class BagfileReader():
       for name, rec_id in self.recordings.items():
           print(f"{name.ljust(40)} → {rec_id}")
 
+  @property
+  def devices(self):
+      """Return a list of device names from Foxglove client."""
+      devices = self.client.get_devices()
+      return [d["name"] for d in devices if "name" in d]
 
+  
   def get_recording_by_name(self, name):
       if name not in self.recordings:
           raise ValueError(f"Recording name '{name}' not found in available recordings.")
@@ -67,6 +73,11 @@ class BagfileReader():
     if len(rec) < 1:
       raise ValueError(f"Recording with id {recording_id} not found.")
 
+    if not rec.get("device"):
+      available = ", ".join(self.devices) or "no devices found"
+      raise ValueError(
+          f"Recording must be assigned to a device before import.\nAvailable devices: {available}")
+      
     self.recording_id = recording_id
     self.device_id = rec['device']['id']
     self.start = rec['start']
