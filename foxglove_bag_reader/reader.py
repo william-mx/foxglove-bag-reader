@@ -37,7 +37,10 @@ class BagfileReader():
   def get_recordings(self):
     # Try to list all available recordings; raise error if API key is invalid
     try:
-        self.recordings = {r['path']: r['id'] for r in self.client.get_recordings()}
+        self.recordings = {
+            r['path'].removesuffix('.mcap').removesuffix('.bag'): r['id']
+            for r in self.client.get_recordings()
+        }
     except requests.exceptions.HTTPError as e:
         if e.response.status_code == 401:
             print("Invalid API key. Please check your credentials.")
