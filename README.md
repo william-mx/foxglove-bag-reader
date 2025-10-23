@@ -47,9 +47,32 @@ In general, the workflow looks like this:
 5. **Example: work with events**
 
  ```python
- # Retrieve events from the bagfile
- events = r.get_events()
- print(events[:3])  # show first 3 events
+  # Open the specific bagfile recording by name
+  r.get_recording_by_name('your_recording')
+
+  # Load steering command messages (AckermannDrive) and camera frames into DataFrames
+  df_ackermann = r.parse_topic('/rc/ackermann_cmd')
+  df_camera = r.parse_topic('/camera/camera/color/image_raw')
+
+  # Synchronize image and steering angle data based on timestamps
+  df_synced = r.sync_dataframes(df_camera, ack=df_ackermann)
+
+  # Extract all raw RGB images from the camera topic
+  images = r.get_all_images("/camera/camera/color/image_raw")
+
+  # Load events that were manually defined in Foxglove
+  events = r.get_events()
+
+  # Match each event to the corresponding image indices in the DataFrame
+  events = r.find_indices_within_events(df_synced, events)
+
+  snippets = [
+      {
+      'type': event['metadata']['your_key'],
+      'images': im_processed[event['indices']],
+      'angles': df_synced['steering_angle_ack'][event['indices']]
+      } 
+      for event in events]
    ```
 
 Each event contains:
