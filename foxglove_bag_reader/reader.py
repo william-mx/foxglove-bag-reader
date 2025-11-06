@@ -212,6 +212,8 @@ class BagfileReader():
           image, _ = self.decode_jpeg(record.data) if msg_type == 'sensor_msgs/CompressedImage' else self.decode_ros_image(message)
           cv2.imwrite(path, image)
 
+      return export_dir
+    
   def get_all_images(self, topic):
     data = []
 
