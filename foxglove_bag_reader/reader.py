@@ -120,24 +120,29 @@ class BagfileReader():
   @staticmethod
   def decode_ros_image(ros_image):
       """
-      Decodes a raw ROS sensor_msgs/Image message into a NumPy image.
-
-      Args:
-      ros_image (sensor_msgs.msg.Image): The ROS Image message.
-
-      Returns:
-      numpy.ndarray: The decoded image in OpenCV BGR format.
+      Decodes sensor_msgs/Image to a NumPy image (BGR or grayscale).
       """
-      # Convert raw data to a NumPy array
       np_arr = np.frombuffer(ros_image.data, dtype=np.uint8)
 
-      # Reshape the array to match the image dimensions
-      img = np_arr.reshape((ros_image.height, ros_image.width, 3))  # 3 channels for RGB
+      # Handle GRAYSCALE (mono / IR) images
+      if ros_image.encoding in ["mono8", "y8"]:
+          img = np_arr.reshape((ros_image.height, ros_image.width))
+          return img, None  # return single-channel image directly
 
-      # Convert RGB to OpenCV's BGR format for compatibility with OpenCV functions
-      img_bgr = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
+      # Handle standard 3-channel images
+      elif ros_image.encoding == "rgb8":
+          img = np_arr.reshape((ros_image.height, ros_image.width, 3))
+          img_bgr = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
+          return img_bgr, None
 
-      return img_bgr, None
+      elif ros_image.encoding == "bgr8":
+          img = np_arr.reshape((ros_image.height, ros_image.width, 3))
+          return img, None  # already BGR
+
+      # Fallback (unknown / unsupported encoding)
+      else:
+          raise ValueError(f"Unsupported image encoding: {ros_image.encoding}")
+
 
   @staticmethod
   def decode_jpeg(data):
